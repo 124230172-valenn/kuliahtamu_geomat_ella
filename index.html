@@ -1,0 +1,168 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+  <meta charset="UTF-8" /> 
+  <title>OSRM WebGIS Trip Planner</title> 
+  <link 
+    rel="stylesheet" 
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+  /> 
+ <style> 
+ 
+    body { 
+      margin: 0; 
+      font-family: 'Inter', sans-serif; 
+      background-color: #f3f4f6; 
+      color: #333; 
+      display: flex; 
+      height: 100vh; 
+      overflow: hidden; 
+    } 
+ 
+    #sidebar { 
+      width: 320px; 
+      background-color: #ffffff; 
+      border-right: 1px solid #ddd; 
+      padding: 20px; 
+      overflow-y: auto; 
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05); 
+    } 
+ 
+    #sidebar h2 { 
+      font-size: 1.4em; 
+      color: #2563eb; 
+      margin-bottom: 10px; 
+      text-align: center; 
+    } 
+#sidebar p { 
+font-size: 0.9em; 
+background-color: #eff6ff; 
+padding: 10px; 
+border-radius: 6px; 
+border-left: 4px solid #3b82f6; 
+} 
+.block { 
+margin-top: 15px; 
+margin-bottom: 15px; 
+background: #f9fafb; 
+border: 1px solid #e5e7eb; 
+padding: 10px; 
+border-radius: 6px; 
+} 
+label { 
+font-weight: 600; 
+color: #374151; 
+} 
+select { 
+margin-left: 8px; 
+padding: 6px; 
+border-radius: 4px; 
+border: 1px solid #ccc; 
+font-size: 0.9em; 
+} 
+button { 
+display: inline-block; 
+background-color: #3b82f6; 
+color: white; 
+border: none; 
+border-radius: 5px; 
+padding: 8px 12px; 
+font-size: 0.9em; 
+cursor: pointer; 
+margin-top: 6px; 
+transition: all 0.2s ease; 
+} 
+button:hover { 
+background-color: #2563eb; 
+transform: translateY(-1px);
+} 
+#clear { 
+background-color: #ef4444; 
+margin-left: 10px; 
+} 
+#clear:hover { 
+background-color: #dc2626; 
+} 
+h3 { 
+margin-top: 20px; 
+border-bottom: 2px solid #3b82f6; 
+padding-bottom: 4px; 
+color: #1e3a8a; 
+font-size: 1em; 
+} 
+ol, ul { 
+margin: 0; 
+padding-left: 18px; 
+font-size: 0.9em; 
+} 
+#matrix-container { 
+overflow-x: auto; 
+font-size: 0.85em; 
+background-color: #f9fafb; 
+border-radius: 6px; 
+padding: 6px; 
+} 
+#map { 
+flex-grow: 1; 
+height: 100vh; 
+} 
+#info { 
+margin-top: 10px; 
+font-size: 0.85em; 
+color: #374151; 
+background-color: #f3f4f6; 
+padding: 8px; 
+border-radius: 6px; 
+border: 1px solid #e5e7eb; 
+}
+/* Scrollbar halus */ 
+::-webkit-scrollbar { 
+width: 8px; 
+} 
+::-webkit-scrollbar-thumb { 
+background: #cbd5e1; 
+border-radius: 4px; 
+} 
+::-webkit-scrollbar-thumb:hover { 
+background: #94a3b8; 
+} 
+</style>
+</head> 
+<body> 
+<div id="sidebar"> 
+<h2>🚗 OSRM WebGIS Trip Planner</h2> 
+<p> 
+Mode: klik peta untuk menambah waypoint.<br/> 
+Minimal 3 titik untuk trip. 
+</p> 
+<div class="block"> 
+<label>Profile: 
+<select id="profile"> 
+<option value="driving">🚘 Driving (car)</option> 
+<option value="cycling">🚴 Cycling</option> 
+<option value="walking">🚶 Walking</option> 
+</select> 
+</label> 
+<button id="clear">Clear All</button> 
+</div> 
+<div class="block"> 
+<button id="btn-matrix">🧮 Compute OD Matrix</button> 
+<button id="btn-trip">🗺️ Optimize Trip (TSP)</button> 
+</div> 
+<div id="info">ℹ️ Klik titik pada peta untuk mulai membuat 
+rute.</div> 
+<h3>Stops (Waypoints)</h3> 
+<ol id="stops-list"></ol> 
+<h3>OD Matrix (minutes)</h3> 
+<div id="matrix-container"></div>
+   <h3>Trip Order</h3> 
+    <ol id="trip-order"></ol> 
+  </div> 
+ 
+  <div id="map"></div> 
+ 
+  <script 
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script> 
+  <script src="app.js"></script> 
+</body> 
+</html> 
